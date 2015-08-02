@@ -1,0 +1,8 @@
+[Unit]
+Description=Runtime
+
+[Service]
+ExecStart=/usr/local/bin/runtime
+
+[Install]
+WantedBy=multi-user.target
