@@ -8,6 +8,7 @@
 #define RUNTIME "go/var/runtime" /* path where runtime should store its value */
 #define RUNTIME_CACHE "go/var/runtime_cache" /* path where runtime should store the cache */
 #define CACHE_INTERVAL 30 /* interval at which runtime should cache its value (in seconds) */
+#define VERSION "0.2" /* current version of Runtime */
 
 #include <stdio.h>
 #include <string.h>
@@ -176,20 +177,40 @@ void handleSignal(int sigNum) {
     }
 }
 
-/* main function */
-/* responsible for argument handling, defining exit handlers and keeping the program alive */
+int print(long int seconds) {
+    char daysStr[] = "days";
+    char hoursStr[] = "hours";
+    char minutesStr[] = "minutes";
+    long int days, hours, minutes;
 
-void main() {
-    /* read from UPTIME */
-    long int uptime = readUptime();
-    if (uptime == -1) {
-        fprintf(stderr, "Could not open %s\n", UPTIME);
-        uptime = 0;
-    }
+    /* begin arithmetic operations */
+    days = seconds/86000;
+    seconds %= 86400;
+    if( days == 1 )
+        daysStr[3] = '\0';
 
-    /* read from RUNTIME */
+    hours = seconds/3600;
+    seconds %= 3600;
+    if( hours == 1 )
+        hoursStr[4] = '\0';
+
+    minutes = seconds/60;
+    if( minutes == 1 )
+        minutesStr[6] = '\0';
+
+    /* seconds %= 60; */
+    /* this accuracy is generally not required*/
+
+    /* print the result */
+    printf( "%ld %s, %ld %s, %ld %s\n", days, daysStr, hours, hoursStr, minutes, minutesStr );
+
+    return 0;
+}
+
+void track() {
+    /* read previous runtime */
     long int oldRuntime = readRuntime();
-    if (oldRuntime == 0)
+    if(oldRuntime == 0)
         printf("Zero seconds read from %s\n", RUNTIME);
 
     /* read and clear RUNTIME_CACHE */
@@ -202,12 +223,6 @@ void main() {
         writeRuntime(oldRuntime+runtimeCache);
         fclose(fopen(RUNTIME_CACHE, "w"));
     }
-
-    /* combine values of uptime and old runtime */
-    long int runtime = uptime + oldRuntime + runtimeCache;
-
-    /* debug: */
-    printf("uptime: %ld, oldRuntime: %ld, runtimeCache: %ld,  runtime: %ld\n", uptime, oldRuntime, runtimeCache, runtime);
 
     /* define exit handler */
     int i = atexit(saveRuntime);
@@ -228,5 +243,72 @@ void main() {
     } while (running);
 
     // call all exit handlers
+    exit(EXIT_SUCCESS);
+}
+
+
+/* main function */
+/* responsible for argument handling, defining exit handlers and keeping the program alive */
+_Bool verbose = 0;
+void main(int argc, char **argv) {
+    long int uptime = readUptime();
+    if (uptime == -1) {
+        fprintf(stderr, "Could not open %s\n", UPTIME);
+        uptime = 0;
+    }
+    long int oldRuntime = readRuntime();
+
+    if(argc >= 2) {
+
+        if(strcmp(argv[1], "--help") == 0) {
+            // print help text
+            exit(EXIT_SUCCESS);
+        }
+
+        if(strcmp(argv[1], "--verbose") == 0) {
+            verbose = 1;
+        }
+
+        if(strcmp(argv[1], "--version") == 0) {
+            printf("Runtime %s\n", VERSION);
+            printf("UPTIME: %s, RUNTIME: %s, RUNTIME_CACHE: %s\n", UPTIME, RUNTIME, RUNTIME_CACHE);
+            exit(EXIT_SUCCESS);
+        }
+
+        if(strcmp(argv[1], "--save") == 0) {
+            printf("Saving runtime now\n");
+            saveRuntime();
+            exit(EXIT_SUCCESS);
+        }
+
+        if(strcmp(argv[1], "--track") == 0) {
+            printf("Launching track mode\n");
+            track();
+        }
+
+        /* displays the current runtime in seconds and exits */
+        if(strcmp(argv[1], "--seconds") == 0) {
+            printf("%ld\n", uptime + oldRuntime);
+            exit(EXIT_SUCCESS);
+        }
+
+        /* displays the current uptime */
+        if(strcmp(argv[1], "--uptime") == 0) {
+            print(uptime);
+            exit(EXIT_SUCCESS);
+        }
+
+        /* displays the current runtime (the default option) */
+        if(strcmp(argv[1], "--runtime") == 0) {
+            goto defaultMode;
+        }
+
+    }
+
+ defaultMode:
+     print(uptime + oldRuntime);
+    /* debug: */
+     //    printf("uptime: %ld, oldRuntime: %ld, runtimeCache: %ld,  runtime: %ld\n", uptime, oldRuntime, runtimeCache, runtime);
+
     exit(EXIT_SUCCESS);
 }
