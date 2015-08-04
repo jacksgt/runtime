@@ -2,7 +2,7 @@
 Description=Runtime
 
 [Service]
-ExecStart=/usr/local/bin/runtime
+ExecStart=/usr/local/bin/runtime --track
 
 [Install]
 WantedBy=multi-user.target
