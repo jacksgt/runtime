@@ -1,7 +1,9 @@
 /*
- * 'runtime' monitors and manages the total runtime of the system
- * That is all the uptime combined
+ * runtime - a tool to measure the total uptime of a system - by Jack Henschel
  */
+
+/* main.c - core functions */
+/* main contains general functions for runtime, such as signal handling, command line arguments and more */
 
 #include "main.h"
 #include "print.h"

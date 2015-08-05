@@ -1,3 +1,10 @@
+/*
+ * runtime - a tool to measure the total uptime of a system - by Jack Henschel
+ */
+
+/* io.h - header definitions for io.c */
+/* io is responsible for writing and reading from and to disk */
+
 #ifndef IO_H_INCLUDED
 #define IO_H_INCLUDED
 

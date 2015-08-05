@@ -1,3 +1,10 @@
+/*
+ * runtime - a tool to measure the total uptime of a system - by Jack Henschel
+ */
+
+/* io.c - function bodies */
+/* io is reponsible for writing and reading from and to disk */
+
 #include "io.h"
 #include "main.h"
 #include "globals.h"

@@ -1,3 +1,10 @@
+/*
+ * runtime - a tool to measure the total uptime of a system - by Jack Henschel
+ */
+
+/* print.c - function bodies for print */
+/* print is responsible for printing to the screen, however other functions may also do that */
+
 #include "print.h"
 
 int print(long int seconds) {

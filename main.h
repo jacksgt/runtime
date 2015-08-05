@@ -1,3 +1,9 @@
+/*
+ * runtime - a tool to measure the total uptime of a system - by Jack Henschel
+ */
+
+/* main.h - header definitions for main.c */
+
 #ifndef MAIN_H_INCLUDED
 #define MAIN_H_INCLUDED
 
