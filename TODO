@@ -1,0 +1,4 @@
+# TODO
+
+ - implement --verbose and --quiet
+ - dynamic line length in readRuntime() and readCache()
