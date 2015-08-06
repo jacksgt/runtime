@@ -41,7 +41,7 @@ the value of /var/cache/runtime_cache and at least know there were 6 hours worth
 Use `runtime [option]` where valid options are:
 ```
     --verbose (not yet functional)
-    --version (not yet functional)
+    --version
     --help
     --save
     --track

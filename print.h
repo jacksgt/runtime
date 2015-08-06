@@ -12,6 +12,8 @@
 
 int print(long int seconds);
 
+int printVersion();
+
 int printHelp();
 
 #endif

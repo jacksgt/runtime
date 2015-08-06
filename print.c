@@ -6,6 +6,7 @@
 /* print is responsible for printing to the screen, however other functions may also do that */
 
 #include "print.h"
+#include "globals.h"
 
 int print(long int seconds) {
     char daysStr[] = "days";
@@ -37,6 +38,13 @@ int print(long int seconds) {
     return 0;
 }
 
+int printVersion() {
+    printf("Runtime %s\n", VERSION);
+    printf("UPTIME: %s, RUNTIME: %s, RUNTIME_CACHE: %s\n", UPTIME, RUNTIME, RUNTIME_CACHE);
+
+    return 0;
+}
+
 int printHelp() {
     printf("Usage: runtime [OPTION] \n"
            "Options:\n"
@@ -49,6 +57,8 @@ int printHelp() {
            "--uptime // print uptime\n"
            "--runtime // print runtime (default option)\n"
         );
+
+    printVersion();
 
     return 0;
 }

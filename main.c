@@ -119,8 +119,7 @@ void main(int argc, char **argv) {
         }
 
         if(strcmp(argv[1], "--version") == 0) {
-            printf("Runtime %s\n", VERSION);
-            printf("UPTIME: %s, RUNTIME: %s, RUNTIME_CACHE: %s\n", UPTIME, RUNTIME, RUNTIME_CACHE);
+            printVersion();
             exit(EXIT_SUCCESS);
         }
 
