@@ -42,7 +42,7 @@ Use `runtime [option]` where valid options are:
 ```
     --verbose (not yet functional)
     --version (not yet functional)
-    --help (not yet functional)
+    --help
     --save
     --track
     --seconds

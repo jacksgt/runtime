@@ -38,6 +38,17 @@ int print(long int seconds) {
 }
 
 int printHelp() {
-    printf("HELP!\n"); // ¯\_(ツ)_/¯
+    printf("Usage: runtime [OPTION] \n"
+           "Options:\n"
+           "--verbose // verbose output\n"
+           "--version // prints version of runtime and global constants\n"
+           "--help // print this help text\n"
+           "--save // save UPTIME right now \n"
+           "--track // daemon mode for systemd service\n"
+           "--seconds // print runtime in seconds\n"
+           "--uptime // print uptime\n"
+           "--runtime // print runtime (default option)\n"
+        );
+
     return 0;
 }
