@@ -47,7 +47,12 @@ long int readUptime() {
 /* this function reads the previous runtime value from RUNTIME and returns the content as long int (seconds) */
 /* it does not report errors, instead it returns a 0 */
 long int readRuntime() {
-    char line[MAX_LINE_LENGTH];
+    /* get length of file and seek back */
+    fseek(fp, 0L, SEEK_END);
+    int size = ftell(fp);
+    fseek(fp, 0L, SEEK_SET);
+
+    char line[size];
     int seconds = 0;
 
     fp = fopen(RUNTIME, "r");
@@ -55,7 +60,7 @@ long int readRuntime() {
     if(fp == NULL)
         return 0;
 
-    while(fgets(line, MAX_LINE_LENGTH, fp) != NULL) {
+    while(fgets(line, size, fp) != NULL) {
         seconds = strtol(line,NULL,10);
     }
 
@@ -106,7 +111,12 @@ int writeCache(long int seconds) {
 /* but it reads multiple lines and adds all the value together */
 /* before returning the value as long int (seconds) */
 int readCache() {
-    char line[MAX_LINE_LENGTH];
+    /* get length of file and seek back */
+    fseek(fp, 0L, SEEK_END);
+    int size = ftell(fp);
+    fseek(fp, 0L, SEEK_SET);
+
+    char line[size];
     int seconds = 0;
 
     fp = fopen(RUNTIME_CACHE, "r");
@@ -114,7 +124,7 @@ int readCache() {
     if(fp == NULL)
         return 0;
 
-    while(fgets(line, MAX_LINE_LENGTH, fp) != NULL) {
+    while(fgets(line, size, fp) != NULL) {
         printf("%s\n",line);
         seconds += strtol(line,NULL,10);
     }
